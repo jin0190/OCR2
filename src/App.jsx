@@ -26,9 +26,21 @@ function App() {
   const [ocrError, setOcrError] = useState("")
 
   const previewUrl = useMemo(() => {
-    if (!selectedFile || selectedFile.type !== "image/png") return ""
+    if (!selectedFile) return ""
+    if (!selectedFile.type.startsWith("image/") && selectedFile.type !== "application/pdf") {
+      return ""
+    }
+
     return URL.createObjectURL(selectedFile)
   }, [selectedFile])
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl)
+      }
+    }
+  }, [previewUrl])
 
   const sortedReceipts = useMemo(() => {
     return [...savedReceipts].sort((first, second) => {

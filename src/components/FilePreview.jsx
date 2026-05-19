@@ -12,13 +12,13 @@ function FilePreview({ file, previewUrl }) {
     )
   }
 
-  const isPng = file.type === "image/png"
+  const isImage = file.type.startsWith("image/")
   const isPdf = file.type === "application/pdf"
 
   return (
     <section className="rounded-lg border border-zinc-200 bg-white p-5">
       <div className="flex items-center gap-2">
-        {isPng ? (
+        {isImage ? (
           <ImageIcon className="h-5 w-5 text-zinc-600" />
         ) : (
           <FileText className="h-5 w-5 text-zinc-600" />
@@ -26,27 +26,42 @@ function FilePreview({ file, previewUrl }) {
         <h2 className="text-base font-semibold">미리보기</h2>
       </div>
 
-      {isPng && previewUrl ? (
+      <p className="mt-3 text-sm text-zinc-500">
+        {file.name} · {formatFileSize(file.size)}
+      </p>
+
+      {isImage && previewUrl ? (
         <div className="mt-4 overflow-hidden rounded-lg border border-zinc-200 bg-zinc-100">
           <img
-            className="max-h-[520px] w-full object-contain"
+            className="max-h-[560px] w-full object-contain"
             src={previewUrl}
             alt="업로드한 영수증 미리보기"
           />
         </div>
       ) : null}
 
-      {isPdf ? (
-        <div className="mt-4 rounded-lg border border-zinc-200 bg-zinc-50 p-4">
-          <p className="text-sm font-medium text-zinc-800">{file.name}</p>
-          <p className="mt-1 text-sm text-zinc-500">
-            PDF 미리보기는 다음 단계에서 필요하면 추가하고, 지금은 업로드 상태만
-            표시합니다.
-          </p>
+      {isPdf && previewUrl ? (
+        <div className="mt-4 overflow-hidden rounded-lg border border-zinc-200 bg-zinc-100">
+          <iframe
+            className="h-[640px] w-full bg-white"
+            src={`${previewUrl}#toolbar=1&navpanes=0`}
+            title="업로드한 PDF 영수증 미리보기"
+          />
         </div>
       ) : null}
     </section>
   )
+}
+
+function formatFileSize(size) {
+  if (!size) return "0 KB"
+
+  const kilobytes = size / 1024
+  if (kilobytes < 1024) {
+    return `${kilobytes.toFixed(1)} KB`
+  }
+
+  return `${(kilobytes / 1024).toFixed(1)} MB`
 }
 
 export default FilePreview

@@ -20,7 +20,7 @@ function FileUploader({ selectedFile, onFileSelect }) {
           PNG 또는 PDF 파일 선택
         </span>
         <span className="mt-1 text-xs text-zinc-500">
-          OCR API 연결 전에는 mock 결과로 화면 흐름을 확인합니다.
+          업로드한 파일은 미리보기 후 OCR로 처리할 수 있습니다.
         </span>
         <input
           className="sr-only"
