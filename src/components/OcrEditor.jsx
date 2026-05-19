@@ -4,10 +4,8 @@ function OcrEditor({ receipt, onChange, onSave }) {
   if (!receipt) {
     return (
       <section className="rounded-lg border border-zinc-200 bg-white p-5">
-        <h2 className="text-base font-semibold">OCR 결과 수정</h2>
-        <p className="mt-3 text-sm text-zinc-500">
-          OCR을 실행하면 추출된 정보를 여기에서 수정할 수 있습니다.
-        </p>
+        <h2 className="text-base font-semibold">수정</h2>
+        <p className="mt-3 text-sm text-zinc-500">OCR 결과가 없습니다.</p>
       </section>
     )
   }
@@ -22,7 +20,7 @@ function OcrEditor({ receipt, onChange, onSave }) {
   return (
     <section className="rounded-lg border border-zinc-200 bg-white p-5">
       <div className="flex items-center justify-between gap-3">
-        <h2 className="text-base font-semibold">OCR 결과 수정</h2>
+        <h2 className="text-base font-semibold">수정</h2>
         <button
           className="inline-flex items-center gap-2 rounded-md bg-zinc-900 px-3 py-2 text-sm font-medium text-white hover:bg-zinc-700"
           type="button"
@@ -61,7 +59,7 @@ function OcrEditor({ receipt, onChange, onSave }) {
       </div>
 
       <label className="mt-4 block">
-        <span className="text-sm font-medium text-zinc-700">전체 OCR 텍스트</span>
+        <span className="text-sm font-medium text-zinc-700">전체 텍스트</span>
         <textarea
           className="mt-2 min-h-52 w-full resize-y rounded-md border border-zinc-300 px-3 py-2 text-sm leading-6 outline-none focus:border-zinc-900"
           value={receipt.rawText}

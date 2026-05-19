@@ -18,9 +18,9 @@ function ReceiptTable({
     <section className="rounded-lg border border-zinc-200 bg-white p-5">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-base font-semibold">저장된 영수증</h2>
+          <h2 className="text-base font-semibold">목록</h2>
           <p className="mt-1 text-sm text-zinc-500">
-            {receipts.length}건 중 {selectedReceiptIds.length}건 선택
+            전체 {receipts.length}건 · 선택 {selectedReceiptIds.length}건
           </p>
         </div>
 
@@ -83,14 +83,14 @@ function ReceiptTable({
                 sortConfig={sortConfig}
                 onSort={onSort}
               />
-              <th className="py-2 pl-3 font-medium">원문 일부</th>
+              <th className="py-2 pl-3 font-medium">텍스트</th>
             </tr>
           </thead>
           <tbody>
             {receipts.length === 0 ? (
               <tr>
                 <td className="py-8 text-center text-zinc-500" colSpan="6">
-                  아직 저장된 영수증이 없습니다.
+                  저장된 항목이 없습니다.
                 </td>
               </tr>
             ) : (

@@ -27,7 +27,10 @@ function App() {
 
   const previewUrl = useMemo(() => {
     if (!selectedFile) return ""
-    if (!selectedFile.type.startsWith("image/") && selectedFile.type !== "application/pdf") {
+    if (
+      !selectedFile.type.startsWith("image/") &&
+      selectedFile.type !== "application/pdf"
+    ) {
       return ""
     }
 
@@ -142,11 +145,11 @@ function App() {
   }
 
   function handleExportAllReceipts() {
-    exportReceiptsToExcel(sortedReceipts, "receipt-list.xlsx")
+    exportReceiptsToExcel(sortedReceipts, "ocr-list.xlsx")
   }
 
   function handleExportSelectedReceipts() {
-    exportReceiptsToExcel(selectedReceipts, "selected-receipts.xlsx")
+    exportReceiptsToExcel(selectedReceipts, "selected-ocr-list.xlsx")
   }
 
   function handleFindCombination() {
@@ -154,19 +157,19 @@ function App() {
   }
 
   function handleExportCombination() {
-    exportCombinationToExcel(combinationResult, "receipt-combination.xlsx")
+    exportCombinationToExcel(combinationResult, "ocr-combination.xlsx")
   }
 
   return (
     <main className="min-h-screen bg-zinc-50 text-zinc-950">
       <div className="mx-auto flex min-h-screen max-w-6xl flex-col gap-6 px-6 py-8">
         <header className="border-b border-zinc-200 pb-5">
-          <p className="text-sm font-medium text-zinc-500">Receipt OCR</p>
-          <h1 className="mt-2 text-3xl font-semibold">영수증 OCR 정리 도구</h1>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-zinc-600">
-            PNG/PDF 업로드, OCR 결과 확인, 정보 수정, 목록 저장, 엑셀
-            내보내기까지 처리하는 React 앱입니다.
-          </p>
+          <p className="text-sm font-medium text-zinc-500">OCR Manager</p>
+          <h1 className="mt-2 text-3xl font-semibold">OCR 정리</h1>
+          <ul className="mt-3 space-y-1 text-sm leading-6 text-zinc-600">
+            <li>파일 업로드 → OCR → 수정 → 저장</li>
+            <li>목록 정렬, 엑셀 다운로드, 100만원 조합 찾기</li>
+          </ul>
         </header>
 
         <section className="grid gap-5 lg:grid-cols-[380px_1fr]">
@@ -179,12 +182,12 @@ function App() {
             <section className="rounded-lg border border-zinc-200 bg-white p-5">
               <div className="flex items-center gap-2">
                 <ScanText className="h-5 w-5 text-zinc-600" />
-                <h2 className="text-base font-semibold">OCR 실행</h2>
+                <h2 className="text-base font-semibold">OCR</h2>
               </div>
               <p className="mt-2 text-sm leading-6 text-zinc-600">
                 {isApiProxyEnabled()
-                  ? "서버 API를 통해 OpenAI로 파일을 읽고 JSON 결과를 받습니다."
-                  : "로컬 Vite 실행 중에는 mock OCR 결과를 사용합니다."}
+                  ? "업로드한 파일을 읽어 JSON으로 정리합니다."
+                  : "로컬 실행 중입니다. mock 데이터로 확인합니다."}
               </p>
               <button
                 className="mt-4 w-full rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-zinc-300"
@@ -192,7 +195,7 @@ function App() {
                 disabled={!selectedFile || isOcrLoading}
                 onClick={handleRunOcr}
               >
-                {isOcrLoading ? "OCR 처리 중" : "OCR 실행"}
+                {isOcrLoading ? "처리 중" : "OCR 실행"}
               </button>
               {ocrError ? (
                 <p className="mt-3 rounded-md bg-red-50 p-3 text-sm leading-6 text-red-700">
@@ -206,7 +209,7 @@ function App() {
             <FilePreview file={selectedFile} previewUrl={previewUrl} />
 
             <section className="rounded-lg border border-zinc-200 bg-white p-5">
-              <h2 className="text-base font-semibold">추출 결과</h2>
+              <h2 className="text-base font-semibold">요약</h2>
               {parsedReceipt ? (
                 <div className="mt-4 grid gap-3 sm:grid-cols-4">
                   <Info label="날짜" value={parsedReceipt.date} />
@@ -219,7 +222,7 @@ function App() {
                 </div>
               ) : (
                 <p className="mt-3 text-sm text-zinc-500">
-                  OCR을 실행하면 날짜, 시간, 상호명, 금액을 먼저 보여줍니다.
+                  OCR 실행 후 결과가 표시됩니다.
                 </p>
               )}
             </section>

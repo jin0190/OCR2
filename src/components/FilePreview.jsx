@@ -5,9 +5,7 @@ function FilePreview({ file, previewUrl }) {
     return (
       <section className="rounded-lg border border-zinc-200 bg-white p-5">
         <h2 className="text-base font-semibold">미리보기</h2>
-        <p className="mt-3 text-sm text-zinc-500">
-          업로드한 파일이 여기에 표시됩니다.
-        </p>
+        <p className="mt-3 text-sm text-zinc-500">파일을 선택하세요.</p>
       </section>
     )
   }
@@ -35,7 +33,7 @@ function FilePreview({ file, previewUrl }) {
           <img
             className="max-h-[560px] w-full object-contain"
             src={previewUrl}
-            alt="업로드한 영수증 미리보기"
+            alt="업로드 파일 미리보기"
           />
         </div>
       ) : null}
@@ -45,7 +43,7 @@ function FilePreview({ file, previewUrl }) {
           <iframe
             className="h-[640px] w-full bg-white"
             src={`${previewUrl}#toolbar=1&navpanes=0`}
-            title="업로드한 PDF 영수증 미리보기"
+            title="PDF 미리보기"
           />
         </div>
       ) : null}
