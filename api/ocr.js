@@ -78,7 +78,7 @@ function createFileInput({ fileName, mimeType, dataUrl }) {
     return {
       type: "input_file",
       filename: fileName,
-      file_data: dataUrl.split(",")[1],
+      file_data: dataUrl,
     }
   }
 
