@@ -20,7 +20,7 @@ function FileUploader({ selectedFile, onFileSelect }) {
           PNG 또는 PDF 선택
         </span>
         <span className="mt-1 text-xs text-zinc-500">
-          선택 후 OCR 실행
+          파일을 고른 뒤 실행하세요.
         </span>
         <input
           className="sr-only"

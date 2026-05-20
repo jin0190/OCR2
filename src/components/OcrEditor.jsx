@@ -13,7 +13,8 @@ function OcrEditor({ receipt, onChange, onSave }) {
   function updateField(field, value) {
     onChange({
       ...receipt,
-      [field]: field === "amount" ? Number(value.replaceAll(",", "")) || "" : value,
+      [field]:
+        field === "amount" ? Number(value.replaceAll(",", "")) || "" : value,
     })
   }
 

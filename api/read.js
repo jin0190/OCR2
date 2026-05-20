@@ -37,11 +37,13 @@ export default async function handler(request, response) {
               {
                 type: "input_text",
                 text: [
-                  "업로드된 파일에서 결제 내역을 읽어 JSON으로 정리하세요.",
+                  "파일 전체를 OCR로 읽으세요.",
+                  "특정 양식에 맞춰 요약하지 말고, 문서에 보이는 내용을 최대한 빠짐없이 읽으세요.",
                   "반환 형식은 JSON 객체 하나만 허용합니다.",
-                  '{"date":"YYYY-MM-DD 또는 빈 문자열","time":"HH:mm 또는 빈 문자열","storeName":"상호명 또는 빈 문자열","amount":숫자,"rawText":"읽은 전체 텍스트"}',
-                  "amount는 최종 결제금액 또는 합계로 보이는 값만 숫자로 넣으세요.",
-                  "확실하지 않은 값은 빈 문자열 또는 0으로 두세요.",
+                  '{"rawText":"OCR 원문 전체","cleanedText":"오탈자, 띄어쓰기, 줄바꿈만 자연스럽게 다듬은 텍스트","corrections":[{"before":"수정 전","after":"수정 후","reason":"수정 이유"}]}',
+                  "숫자, 날짜, 금액, 이름, 주소, 전화번호, 고유명사는 추측해서 바꾸지 마세요.",
+                  "확실하지 않은 부분은 cleanedText에서도 원문을 유지하세요.",
+                  "corrections에는 실제로 바꾼 부분만 넣으세요.",
                 ].join("\n"),
               },
               createFileInput({ fileName, mimeType, dataUrl }),
