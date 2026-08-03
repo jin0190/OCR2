@@ -1,5 +1,6 @@
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses"
 const DEFAULT_MODEL = "gpt-5-mini"
+const ALLOWED_MODELS = new Set(["gpt-5-mini", "gpt-5.4-mini"])
 
 export default async function handler(request, response) {
   if (request.method !== "POST") {
@@ -13,12 +14,17 @@ export default async function handler(request, response) {
   }
 
   try {
-    const { fileName, mimeType, dataUrl } = request.body || {}
+    const { fileName, mimeType, dataUrl, model } = request.body || {}
 
     if (!fileName || !mimeType || !dataUrl) {
       response
         .status(400)
         .json({ error: "fileName, mimeType, dataUrl are required" })
+      return
+    }
+
+    if (model && !ALLOWED_MODELS.has(model)) {
+      response.status(400).json({ error: "Unsupported model" })
       return
     }
 
@@ -29,7 +35,7 @@ export default async function handler(request, response) {
         Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: process.env.OPENAI_MODEL || DEFAULT_MODEL,
+        model: model || process.env.OPENAI_MODEL || DEFAULT_MODEL,
         input: [
           {
             role: "user",

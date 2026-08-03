@@ -8,7 +8,7 @@ import {
   requestFullRead,
 } from "../lib/fullReadClient.js"
 
-function FullReadPage() {
+function FullReadPage({ model }) {
   const [selectedFile, setSelectedFile] = useState(null)
   const [result, setResult] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -47,7 +47,7 @@ function FullReadPage() {
     setError("")
 
     try {
-      setResult(await requestFullRead(selectedFile))
+      setResult(await requestFullRead(selectedFile, model))
     } catch (readError) {
       setError(readError.message)
     } finally {

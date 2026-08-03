@@ -1,12 +1,26 @@
 import { Upload } from "lucide-react"
 
-function FileUploader({ selectedFile, onFileSelect }) {
+function FileUploader({
+  selectedFile,
+  selectedFiles = [],
+  multiple = false,
+  onFileSelect,
+  onFilesSelect,
+}) {
   function handleChange(event) {
-    const file = event.target.files[0]
-    if (!file) return
+    const files = Array.from(event.target.files || [])
+    if (files.length === 0) return
 
-    onFileSelect(file)
+    if (multiple) {
+      onFilesSelect(files)
+    } else {
+      onFileSelect(files[0])
+    }
+
+    event.target.value = ""
   }
+
+  const fileCount = multiple ? selectedFiles.length : selectedFile ? 1 : 0
 
   return (
     <section className="rounded-lg border border-zinc-200 bg-white p-5">
@@ -17,22 +31,26 @@ function FileUploader({ selectedFile, onFileSelect }) {
 
       <label className="mt-4 flex cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-zinc-300 px-4 py-8 text-center transition hover:border-zinc-500 hover:bg-zinc-50">
         <span className="text-sm font-medium text-zinc-800">
-          PNG 또는 PDF 선택
+          {multiple ? "이미지 또는 PDF 여러 개 선택" : "이미지 또는 PDF 선택"}
         </span>
         <span className="mt-1 text-xs text-zinc-500">
-          파일을 고른 뒤 실행하세요.
+          PNG, JPG, JPEG, WebP, PDF 지원
         </span>
         <input
           className="sr-only"
           type="file"
-          accept="image/png,application/pdf"
+          accept="image/png,image/jpeg,image/webp,application/pdf"
+          multiple={multiple}
           onChange={handleChange}
         />
       </label>
 
-      {selectedFile ? (
+      {fileCount > 0 ? (
         <p className="mt-3 text-sm text-zinc-600">
-          선택: <span className="font-medium">{selectedFile.name}</span>
+          선택:{" "}
+          <span className="font-medium">
+            {multiple ? `${fileCount}개 파일` : selectedFile.name}
+          </span>
         </p>
       ) : null}
     </section>

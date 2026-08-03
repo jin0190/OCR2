@@ -5,7 +5,7 @@ export function isApiProxyEnabled() {
   return Boolean(getOcrApiEndpoint())
 }
 
-export async function requestOcr(file) {
+export async function requestOcr(file, model = "gpt-5-mini") {
   const endpoint = getOcrApiEndpoint()
 
   if (!endpoint) {
@@ -17,10 +17,10 @@ export async function requestOcr(file) {
     }
   }
 
-  return requestProxyOcr(file, endpoint)
+  return requestProxyOcr(file, endpoint, model)
 }
 
-async function requestProxyOcr(file, endpoint) {
+async function requestProxyOcr(file, endpoint, model) {
   const dataUrl = await fileToDataUrl(file)
   const response = await fetch(endpoint, {
     method: "POST",
@@ -31,6 +31,7 @@ async function requestProxyOcr(file, endpoint) {
       fileName: file.name,
       mimeType: file.type,
       dataUrl,
+      model,
     }),
   })
 

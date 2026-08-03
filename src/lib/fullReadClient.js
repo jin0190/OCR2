@@ -23,7 +23,7 @@ export function isFullReadApiEnabled() {
   return Boolean(getFullReadEndpoint())
 }
 
-export async function requestFullRead(file) {
+export async function requestFullRead(file, model = "gpt-5-mini") {
   const endpoint = getFullReadEndpoint()
 
   if (!endpoint) {
@@ -42,6 +42,7 @@ export async function requestFullRead(file) {
       fileName: file.name,
       mimeType: file.type,
       dataUrl,
+      model,
     }),
   })
 
